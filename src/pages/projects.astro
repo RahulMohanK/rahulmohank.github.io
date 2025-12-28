@@ -1,0 +1,41 @@
+---
+import Footer from "../components/footer.astro";
+import Header from "../components/header.astro";
+
+const data = [
+        { title: 'BrowseNest', desc: 'Smart bookmarks bar manager.', tags: ['React','Typescript','HTML','CSS'] },
+        { title: 'Gofr', desc: 'OSS contribution to gofr microservice framework', tags: ['Go'] },
+      ];
+---
+<html lang="en">
+    <head>
+        <head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Rahul Mohan K</title>
+	</head>
+    </head>
+<body>
+<Header/>
+   <section id="panel-home" class="panel" role="tabpanel" aria-labelledby="tab-home">
+        <div class="center wrap">
+          <h1>Projects</h1>
+          <p class="lead">A few small, focused builds.</p>
+          <div class="projects" id="projects">
+            {
+                data.map((project: any)=>(
+                    <article class="card">
+                        <h3>{project.title}</h3>
+                        <p>{project.desc}</p>
+                        <div class="tags">{(project.tags||[]).map((tag:any)=>(<span class="tag">{tag}</span>))}</div>
+                    </article>
+                ))
+            }
+          </div>
+        </div>
+      </section>
+    <Footer/>
+</body>
+</html>
