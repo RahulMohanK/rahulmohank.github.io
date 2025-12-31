@@ -100,7 +100,7 @@
 
   .panel {
       min-height: 100vh;
-      display: grid;
+      /* display: grid; */
       grid-template-rows: 1fr auto;
       place-items: center;
   }
