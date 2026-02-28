@@ -1,7 +1,107 @@
 ---
-title: "How Not to Kill a Product?"
-description: "A software can become extinct even if has a good customer base"
+title: "How Not to Kill a Software Product?"
+description: "A software can become extinct even if it has a good customer base"
 date: "Feb 06 2026"
 ---
 
-This is the blog
+import { Image } from "astro:assets";
+import myImage from "../../assets/hownottokill.png";
+
+<Image src={myImage} alt="Product screenshot" />
+
+A software product can become extinct if it fails to build a strong customer base, and that is obvious. However, customer adoption 
+is not the only factor that determines whether a product survives. There are several internal factors that can slowly push a software 
+product toward irrelevance and eventual failure. The intention of this blog is not to be pessimistic, but to highlight a ground reality:
+weak engineering practices can gradually slow down the progress of software and eventually derail a running business. 
+Many products do not fail because the idea was wrong, but because the software supporting the business becomes increasingly 
+difficult to evolve.
+
+Engineering, in general, is a discipline driven by decision making. Every engineering effort involves choosing between trade-offs to 
+achieve a desired outcome. In software engineering, one of the most significant trade-offs exists between delivery speed and 
+development practices. Software is ultimately built for business, and business requirements should remain the primary objective. 
+Technology choices and technical elegance, while important to developers, come second. 
+
+However, when business urgency drives the entire software development lifecycle, the speed at which features reach production often 
+increases to a point where teams begin compromising on practices that make software sustainable. These compromises may appear small 
+or harmless initially, but even minor deviations accumulate over time. Gradually, these decisions compound and begin affecting 
+productivity, stability, and scalability. Much like the butterfly effect, small shortcuts taken today can eventually contribute 
+to the decline of a product, even if the business itself continues to exist.
+
+### Developer Experience Starts With Project Setup
+
+One of the earliest indicators of a healthy engineering culture is the ease with which a developer can set up the project locally. 
+Software development is a cognitively demanding activity, and new developers frequently join projects to build features or fix 
+existing issues. The first interaction a developer has with a system is not the code itself, but the setup experience. If setting 
+up the project takes hours, it immediately creates an impression that working within the codebase will be equally complex and 
+time-consuming. Cognitive friction begins before meaningful development even starts. On the other hand, when a project can be set up
+quickly and reliably, developers subconsciously associate that ease with the overall development experience. Even complex features 
+begin to feel achievable because the initial barrier to entry is low. Faster setup leads to quicker experimentation, shorter testing cycles, 
+and improved development momentum.
+
+### Technical Debt Can Quietly Kill a Product <br/>
+
+Technical debt is another silent factor that can gradually kill a product. Discussions around technical debt have existed since the early 
+days of software engineering, yet it continues to be underestimated. 
+
+One major aspect of technical debt is failing to upgrade the 
+technology stack. Programming languages, frameworks, and dependencies evolve continuously, often introducing security patches, 
+performance improvements, and better resource utilization. Teams that postpone upgrades eventually find themselves stuck on outdated 
+systems that are harder to maintain. New developers joining the team may already be familiar with modern versions of technologies, 
+and working with legacy stacks increases onboarding difficulty and slows productivity. Over time, organizations may even struggle to 
+find engineers willing to work on obsolete technologies.
+
+Another dimension of technical debt appears in performance decisions made during early development. In the interest of faster delivery, 
+teams often implement the most straightforward solution to a problem. At small scale, inefficient memory or CPU usage may not appear significant. 
+However, as the system grows, these inefficiencies surface as bottlenecks that impact performance and infrastructure costs. What once seemed 
+like a harmless shortcut becomes a scalability limitation. Code reviews should therefore evaluate not only correctness but also efficiency and 
+long-term maintainability, because small resource savings across multiple components can significantly improve overall system performance.
+
+Observability is another area that teams tend to ignore in the early stages of development. Logging and monitoring rarely feel urgent when
+systems are small and predictable. As software grows in complexity, however, the absence of proper logs becomes a major obstacle.
+Debugging issues without sufficient observability slows developers down and often requires redeploying code just to understand failures. 
+This repeated cycle increases development fatigue and reduces team efficiency. Modules lacking proper logging frequently undergo 
+repeated development cycles simply to diagnose problems that could have been identified quickly with better instrumentation.
+
+
+### Documentation Is as Important as Code <br/>
+
+Documentation plays an equally critical role in the longevity of software systems. Consider a junior developer assigned to work on an 
+existing codebase. They may know the feature they need to build and have access to the repository along with instructions to run the 
+application locally, yet they lack an understanding of the system's architecture, deployment strategy, or business workflows. Without 
+technical and business documentation, developers spend unnecessary time rediscovering knowledge that already exists within the team. 
+Architecture decisions, API behavior, and design intentions remain locked in the minds of a few individuals. Documentation is often 
+neglected because it feels unnecessary during early development, but it is not written for the present developer-it is written for 
+future contributors. When documentation is missing, teams unintentionally create knowledge bottlenecks where certain individuals become
+ permanent points of contact, repeatedly explaining the same concepts. This dependency structure slows development and creates avoidable
+operational friction.
+
+### Deployment Strategy Determines Execution Speed 
+
+Deployment strategy is another factor that significantly affects the speed of execution within engineering teams. Traditional manual 
+deployments on multiple virtual machines introduce delays and increase the likelihood of human error. Even small configuration changes 
+may require manual intervention across several servers, consuming valuable engineering time. Testing cycles slow down because deployments 
+themselves become cumbersome. Modern practices such as containerization, orchestration, and CI/CD pipelines transform this process by 
+automating build and deployment workflows. What once required hours of manual effort can be completed in minutes. Faster deployments 
+encourage experimentation, improve feedback loops, and allow businesses to respond quickly to changing requirements. In this sense, 
+modernization of deployment strategy is not merely a technical improvement but a strategic advantage for the business.
+
+### AI-Driven Development - What Comes After
+
+With the rise of AI coding agents, many of these concerns appear to be less significant at first glance. Code generation is becoming faster,
+documentation can be produced on demand, and business requirements themselves can serve as prompts that guide development. Agent-driven 
+development emphasizes rapid execution and shortened delivery cycles. However, these advancements do not eliminate the need for strong 
+engineering practices. AI systems operate effectively only when context is structured and systems are understandable. When human developers 
+remain part of the development loop-as they inevitably will-the absence of documentation, observability, and clear development workflows 
+continues to create cognitive overload. AI can accelerate development, but it cannot replace the need for clarity, maintainability, and 
+thoughtful system design.
+
+### Conclusion
+
+Software products rarely fail overnight. More often, they decline gradually due to accumulated friction within the engineering process. 
+Difficult onboarding experiences, growing technical debt, missing documentation, inefficient deployment strategies, and lack of observability 
+slowly reduce a team's ability to evolve the product. These problems are especially pronounced in SaaS products with complex workflows, 
+where continuous iteration is essential. Strong engineering practices are not merely idealistic principles; they are survival mechanisms that 
+allow software to evolve alongside the business it serves. Businesses may thrive on speed, but software survives on sustainability.<br/><br/>
+
+
+
