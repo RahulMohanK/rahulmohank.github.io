@@ -26,10 +26,14 @@ const posts = data.reduce((acc: Acc, post: any) => {
 
 const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a)); 
 ---
-<!-- <html>
+<html>
     <head>
+      <meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
     </head>
-    <body> -->
+    <body>
         <Header/>
         <!-- <section id="panel-home" class="panel" role="tabpanel" aria-labelledby="tab-home"> -->
                 <PageLayout title={"sdfsdf"} description={"sdsdfsdf"}>
@@ -63,5 +67,5 @@ const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
 </PageLayout>
         <!-- </section> -->
         <Footer/>
-    <!-- </body>
-</html> -->
+    </body>
+</html>
