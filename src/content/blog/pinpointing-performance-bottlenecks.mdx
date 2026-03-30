@@ -23,7 +23,7 @@ However, in this context, the terms business and customers refer specifically to
 users. In this blog, we will explore how each component in a SaaS architecture can impact overall performance and examine ways to uncover hidden bottlenecks 
 by considering compute, memory, and disk as the fundamental sources of root causes.
 
-### The sample architecture
+### The Sample Architecture
 <div style={{ display: "flex", justifyContent: "center" }}>
     <Image src={archIMage} width="400" height="400" alt="Architecture diagram" />
 </div>
@@ -32,9 +32,9 @@ Consider this to be the architecture of the application that we are going to ana
 written in java historically.
 
 Components of the architecture are :
-- __Java application__ server deployed in a linux virtual machine (Linux is the obvious choice).
-- An __SQL database__ which the application uses to store and retrieve data. (__Postgres__ can be the choice as it is open source). 
-- An __External Storage__ to which the app server writes the file. (__Elastice File System__ or __Elastic Block Storage__ in AWS).
+- __Java application__ server deployed in a linux virtual machine ([Linux](https://en.wikipedia.org/wiki/Linux) is the obvious choice).
+- An __SQL database__ which the application uses to store and retrieve data. (__[Postgres](https://www.postgresql.org/)__ can be the choice as it is open source). 
+- An __External Storage__ to which the app server writes the file. (__[Elastice File System](https://aws.amazon.com/efs/)__ or __[Elastic Block Storage](https://aws.amazon.com/ebs/)__ in AWS).
 
 Working of the application :
 
@@ -82,7 +82,7 @@ By analyzing the thread dump, we can determine:
 - Threads waiting on locks
 - Threads stuck in long-running computations
 
-#### CPU profiling
+#### CPU Profiling
 
 CPU profiling provides a hoslistic view of CPU time consumed by the application. Tools like [Java Flight Recorder(JFR)](https://openjdk.org/jeps/328) and [async profiler](https://github.com/async-profiler/async-profiler) can be utilised for this.
 
@@ -135,7 +135,7 @@ This tool can be used to generte flame graphs to drill down deeper and identify 
 Every program requires memory for execution. An application becomes susceptible to memory leaks or memory exhaustion when allocated objects are not garbage collected because references to them still exist within the program.
 As a result, the system may eventually become incapable of serving new requests. This is a common problem in java applications. This can be analysed by the following methods :
 
-#### Heap profiling
+#### Heap Profiling
 JFR can also be used for heap profiling, it gives insights on memory allocation, GC and heap usage trends. More specific results can be
 obtained using async profiler.
 
@@ -175,7 +175,7 @@ Memory bottlenecks typically arise due to:
 - Inefficient data structures
 - Excessive garbage collection pauses
 
-### Storage/ Disk I/O Bottlenecks
+### Storage/Disk I/O Bottlenecks
 
 IO related issues will definitey standout in the profiling results that we analysed before. A high I/O wait time typically results in threads being in BLOCKED or WAITING states.
 
@@ -190,28 +190,28 @@ In the case of Elastic Block Store (EBS), the store throttles the data transfer 
 more IOPS that the configured value.
 
 When working with EFS, the behavior differs slightly, AWS offers three through put modes 
-- __Bursting mode__ 
+- __Bursting Mode__ 
 <br/>This is the most cost effective mode. The throughput increases with the increasing size of the storage.
-Bursting mode also rate limits the requests if the throughput consumption is beyond the threshold. If it consumes throughput it decreases the __BurstCreditlimit__ - This
+Bursting mode also rate limits the requests if the throughput consumption is beyond the threshold. If it consumes throughput it decreases the __BurstCreditLimit__ - This
 is the key metric to monitor when you face unexpected latency due to I/O. BurstCreditlimit replenishes if throughput consumption is less.
-- __Provisioned mode__
+- __Provisioned Mode__
 <br/> Throughput can be configured while setting up the instance. Suppose 150MB/s is configured, system consistently provides this throughput. Operations are not rate limited
 in this mode (BurstCreditlimit need not be considered), but if the applicaiton transfers data more than 150MB/s then you see a delay in the total timings.
-- __Elastic mode__
+- __Elastic Mode__
 <br/> This is the pay as you go mode. Throughput scales propotionally with increasing load. Throttling related problems are not common in this mode.
 
-Cloud providers like AWS offers tools like Cloudwatch to analyse the usage metrics of EBS and EFS. Users can even set alamrms if a metric crosses the desired limit.
-Thoughput and IOPS are definitely two metrics that can be looked closely to find issues related to Disk operations.
+Cloud providers like AWS offers tools like Cloudwatch to analyse the usage metrics of EBS and EFS. Users can even set alarms if a metric crosses the desired limit.
+Thoughput and IOPS are definitely two metrics that can be looked closely to find issues related to disk operations.
 
 ### Database Bottlenecks
-If a managed database service such as RDS is used, it provides built-in metrics for performance analysis. In the case of on-premise databases, CPU, memory, and I/O profiling can be performed directly on the database server.
+If a managed database service such as [RDS](https://aws.amazon.com/rds/) is used, it provides built-in metrics for performance analysis. In the case of on-premise databases, CPU, memory, and I/O profiling can be performed directly on the database server.
 
 There are few common low level design issues which could lead to slowness.
 - __Lack of connection pooling__ <br/>If applicaiton establishes a connection for every new intteraction with the database,it leads to significant resource overhead due to GC, added network roundtrips,additional garbage collection pressure etc
   A better approach is to maintain a fixed pool of reusable connections. Connections are borrowed from the pool and returned after use.
   Libraried like [hikari](https://github.com/brettwooldridge/hikaricp) already abstracts this for developers.
 
-- __Long running quries__ <br/> Queries can be long running if it scans the entire table to fetch the desired result. It is advised to analyse the query plan
+- __Long running queries__ <br/> Queries can be long running if it scans the entire table to fetch the desired result. It is advised to analyse the query plan
 of the database query to measure the time elapsed. After analysis proper indexing, normalization or denormalization of tables, constructing optmised queries etc can be considerd to improve
 the timings. <br/>Query performance analysis should be an ongoing activity, as performance characteristics can change with data growth. Indexes that were effective earlier may become suboptimal over time.
 
