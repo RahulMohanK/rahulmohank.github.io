@@ -1,0 +1,131 @@
+---
+title: "The How and Why of LLMs' perfect fit into our psyche"
+description: "Happy to be part of \"make mistakes and learn era\" where trial and error was the only option for developers"
+date: "May 30 2026"
+---
+import { Image } from "astro:assets";
+import myImage from "../../assets/llm-perfect-fit.png";
+
+<Image src={myImage} alt="Product screenshot" />
+
+Happy to be part of __make mistakes and learn era__ where trial and error with the help of the technical documentation was the only resort to build something.
+Stackoverflow and thousands of developers who shared their insights in the platform, deserves a lot of appreciation because they made the trial and error part 
+much more easier and saved a lot of time. Back when I was an Android application developer, I used to spent hours to figure out how a native api work and
+identify the best practice to implement a particular feature using the api. Resources were limited but we figured out things in the long run at the cost of time
+and effort.
+
+But the landscape has changed with the discovery of LLMs, a next word predictor that altered the way the world worked. The impact of tools and services that are
+built on top of LLM's are remarkable. Not only software engineering but also every other domain is utilizing these solutions to work efficiently. It's needless to
+mention that software engineering has benefited a lot from LLM's and agentic tools. The speed of planning and implementation of solutions have changed drastically,
+and the proof of the same is evident in the new discoveries we had just by the end of the first calendar quarter of 2026.
+
+The number of such breakthrough's we've had so far is high and it is hard to comprehend the details in a short time span. It is clear that LLM invention is being 
+recursively used to speed up research and development and it has contributed a lot to the increase in speed of discoveries in various fields and as well as for the
+next generations of LLM's. Some of them that made a lot of noise in the industry are :
+
+- Claude Mythos
+    cloud flare blog in claude mythos. curl founders blog on claude mythos.
+- Turboquant from google
+- Muse Spark
+- Kimi 2.5 and Kimi 2.6
+- Moonshot AI - GLM-5.0 and GLM-5.1
+- Gemma 4 ubiquitious models from google
+- Agentic memory, Supermemory and Huggingface attachable filesystem
+
+This immense pace in RND will definitely reflect in all fields which utilizes tech and in this blog, we will focus on the impact for LLM on software and the people who 
+builds it.
+
+## Impacts on developers
+
+Developers are forced to become ideators who wears the cap of a product owner, who identifies the requirements of the business and fills the gap between a user and a software developer. 
+Problem solving is moreover about defining the spec (spec-kit, skills.md) and agents does the implementation. Developers job is to chisel and make the product perfect with the prompts,
+while agents does the heavy lifting.
+
+There are advantages and disadvantages to this approach. Lets be optimistic and start with the advantages.
+
+- Agent based software engineering defies the traditional seniority based heirarchies in large organizations. Every developer, irrspective of their number of years of experience in 
+the field, can sit in the driving seat. They can envision the end-to-end of a product with lesser focus on the underlying implementation as this is ensured by agentic tools already.
+But this does not deny the fact that a senior engineer with first hand experience in buiding and delivering software, has upper hand in the business domain.
+- In most cases agentic development guarentees a working solution with commentable end user satisfaction and performance.
+- It drastically increases the pace of development and delivery cycle. Things which took weeks before, now only takes days in worst case, to reach the customers.
+- It provides newer ways of learning things, sometimes the solutions might be much better that what we thought in thw first place.
+
+Talking about the disadvantages, software developemt gets into its peak when we implement something which was ideated. Implementing it ourselves always reaffirms and validates the 
+architectural desicions we arrived at, while designing the solution. Now the implementation part can be totally handed over to agents;coding and debugging feedback loop is something that developers
+doesn't concern anymore. This is good and bad at the same time. Humans are as good as they repeat an activity. Developers who moves away from the coding and debugging part can loose their traction
+to read and review the code written by llms. This a very concerning problem. As far as human is in the loop of software developmwnt lifecycle, if human is to takeover and solve a critical production
+bug that agents couldnt solve, then developer should be aware of what the code base does. Developers who have drifted away from programming can face backlashes when such an event occur.
+Otherwise a developer should never write software at all, instead they should just connect the dots between the modules built by agents to get the overall architecture working. Looking at 
+the pace at which ai tools progress, there is a high chance that we dont even need to see the code anymore, agents itself will provide us the final product we desired.
+([Bun rewrite to Rust](https://github.com/oven-sh/bun/pull/30412), [Claudes C compiler](https://github.com/anthropics/claudes-c-compiler)).
+
+On a broader aspect, what does it mean by using an external system as our second brain ? Lets take a real world example; we consume news from multiple social platforms, we already know that not all
+of them will be true - but still we tend to believe what is false to be true sometimes. How does is happen ? If 7 out of 10 news articles displayed in a platform are correct and validated by the public
+then we automatically tend to believe the the rest 3 - A [halo effect](https://en.wikipedia.org/wiki/Halo_effect) will be subconsciously created within our mind. The same effect happens when we use GPT's 
+to offload our tasks and this is true for everybody who uses these tools. We will scrutinize the results from llms rigorously at the begining and towards completion, we will accept whatever it provides -
+we simply cannot match the pace at which results are generated. Things get even worse when multiple agents are used in parallel.
+We also tend to believe that the solution is built by us - generally that is true
+because we initated the developemt with a prompt,but in reality the ownership is held by the tool itself - it creates an illusion of productivity. We would be aware of the overall structure of the solution
+ but all the nitty-gritty details would be taken for granted.
+
+
+
+## Impacts on commoditizing software 
+
+For decades the industry have been monetizing software based on api usage of its product which costs them the compute, memory and storage usage in a managed cloud or on-prem,
+on top of which the solution is mounted. In agentic tools era, token is the new oil and commodity. Earlier if it was cost for running cloud and managing developers that companies 
+had to manage, now they have an additional cost of token usage. Its hard not use agents to build solutions, as engineers are more and more accustomed to writing prompt for research 
+and solutiong, as it is faster, more efficient when compared to googling. Companies on other end will be compelled to subscribe to any LLM vendor for various reasons including market
+competition, speed, product exposure and mainly security issues, posed when developers use free GPT's available. 
+
+There are only few deep tech companies who offer GPT subscriptions and they control how token is spent. Organizations who consume these agentic tools doesn't have the fine grained
+control to observe where exactly token is expended and only option that is left with them is to cap the usage per user. Therefore the first uncertainity is that introduction of each 
+model in the market would be priced more that its predecessor.
+
+Token expenditure should become proportional to the speed of delivery and quality of software - more productivity, more PR's, more deliverables, but in reality for a SaaS company its 
+hard to evaluate token usage with respect to useful features made available to the customers (uber AI budget). The latter would be the second uncertainty.
+
+I believe that it would be harder to position fee for a product in the market with such fluctuating parameters.
+
+
+## Conclusion
+
+
+
+It is true that every new model introduced are more capable that their predecessors, but how do we evaluate that the current problem we have even require a 
+bigger, costlier model. We expect that the bi`gger and newer models solves whatever problems we have despite knowing the complexity of the problem in hand
+Most of the time very small and less costlier model is required for solving the problem. This is something that companies cashes us - They sell a model for its
+higher rating in benchmarks but in reality we dont even know whether we need that model to solve our problem.
+
+Does every company run LLM's in their own infra in future and they have a dedicated opsa team to manage it ? Do evey company have a research team who are
+not mere users of LLM's but are capable of architecting LLM's for the need of the company ?
+
+----
+
+
+## References
+
+- https://addyosmani.com/blog/comprehension-debt/
+- https://addyosmani.com/blog/cognitive-surrender/
+- https://stackoverflow.blog/2026/03/19/ai-is-becoming-a-second-brain-at-the-expense-of-your-first-one/?utm_source=braze&utm_medium=email&utm_campaign=the-overflow-newsletter&lid=1f1bj0kpvl0o
+
+
+
+
+---
+Just like fuel price affects the economy, token price drives the product development and growth of a company.
+
+Eventhough it sounds like being skeptical about the advantages of agentic tools, it is true that there are commentable differences in the way we think about a problem
+and the ways solutions are built. 
+
+How company can drive users to use more tokens and exhaust the token limit. How output quality increases the cost and demand for tokens.
+
+SLM's that can be used in personal machines which can be used for small usecases where LLM's are not required. ?
+
+Posits caveats also. Intriduced a new type of fuel known as token. Token expensiture becomes proportuinal to the speed of delivery and quality of software. Just like fuel price 
+affects the economy, token price drives the product development and growth of a company.
+
+ This poses a new type of risk where developers are forgwtting how they wroote code in thw 
+earlier days. Now we are offloafing decision making to llms. This is a boon as well as a risk at tje same time. What happems if developers forget to code.(ramp article )
+
+
