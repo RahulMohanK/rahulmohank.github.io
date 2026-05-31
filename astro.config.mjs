@@ -6,6 +6,9 @@ import partytown from "@astrojs/partytown";
 // https://astro.build/config
 export default defineConfig({
     site: 'https://rahulkmohan.in',
+    markdown: {
+        smartypants: false,
+    },
     integrations: [tailwind(), mdx(), partytown({
         config : {
             forward : ["dataLayer.push"]
