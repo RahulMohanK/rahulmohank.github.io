@@ -3,8 +3,8 @@ import Footer from "../components/footer.astro";
 import Header from "../components/header.astro";
 
 const data = [
-        { title: 'BrowseNest', desc: 'Smart bookmarks bar manager.', tags: ['React','Typescript','HTML','CSS'] },
-        { title: 'Gofr', desc: 'OSS contribution to gofr microservice framework', tags: ['Go'] },
+        { title: 'BrowseNest', desc: 'Smart bookmarks bar manager.', tags: ['React','Typescript','HTML','CSS'], link : "https://chromewebstore.google.com/detail/browsenest/gbkjnhbfnhgbffiphpbnakfejkiccgpg" },
+        { title: 'Gofr', desc: 'OSS contribution to gofr microservice framework', tags: ['Go'], link: "https://github.com/gofr-dev/gofr/pull/1061" },
       ];
 ---
 <html lang="en">
@@ -34,9 +34,11 @@ const data = [
             {
                 data.map((project: any)=>(
                     <article class="card">
+                    <a href={project.link}  target="_blank" rel="noopener noreferrer">
                         <h3>{project.title}</h3>
                         <p>{project.desc}</p>
                         <div class="tags">{(project.tags||[]).map((tag:any)=>(<span class="tag">{tag}</span>))}</div>
+                      </a>
                     </article>
                 ))
             }
