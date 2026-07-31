@@ -1,0 +1,99 @@
+---
+title: "Being RESTful"
+description: "A software can become extinct even if it has a good customer base"
+date: "Jul 31 2026"
+---
+
+import { Image } from "astro:assets";
+import myImage from "../../assets/being-restful.png";
+
+<Image src={myImage} alt="Product screenshot" />
+
+Being able to build REST API is still an industry wide buzzword and it would be one of the core skill-set that any
+software engineer would be having in their repertoire. Despite of being a backend or an frontend engineer,
+it it also one of the most demanded topic which every developers are expected to know. Since it still holds
+its importance, discussions about it is still relevant, even in the agentic era. Most introductory learning resources out there typically focuses on
+building a CRUD application using any Web or MVC frameworks available. Those frameworks would be the one 
+that is used in the industry for building web services which includes SpringBoot, Django, Flask, Gin etc.
+Selection of such a framework would be based on the flavours and preferences of the author.
+
+The outcome from such courses would be hands-on experience of building a fully fledged service which shall
+satisfy the requirements mentioned. We would be building few distinct endpoints to create, update and delete the 
+resource we have imagined and we would also be testing these endpoints using some well known http clients(curl and
+curl wrappers!). And done !.
+
+We would have built a server which handles a resource such as a Student or a Pet, implemented 
+different endpoints that serves different purposes and we have an http client software which in realword
+can be a frontend application or another service that consumes the resources held by the server.
+Theoretically the implementation is Restful. But how do we define RESTfullness? Is it limited to just building a CRUD API ?
+
+
+
+
+###  Thinking in REST
+
+REST stands for Respresentational State Transfer. It is a philosophy and at the same time an architectural style
+that mentions the priciples about building a web service. It does not qualify as a protocol as it does not enforce
+any hard contracts for its implementation unlike protocols like HTTP, TCP or UDP. REST gives us freedom to implement the 
+model the way we intend to. We can even break the pricinple, after breaking it though the service might not be strictly RESTful but still 
+it would carry its flavour, thats the speciality of this style.
+
+In simple terms, these are the principles putforward and if the services follows this design, we can argue that the solution is RESTful
+
+1. __Client Server architecture__
+
+    Client and the server should be separate. Client depends upon server to perform operations on data. This principle assures 
+that the client and the server can evolve independently.
+
+
+2. __Statelessness__
+
+    The server does not store any additional data about the client to process a request. The request from the client should be
+    having all the necessary details for the server to perform its actions.
+
+3. __Cacheability__
+
+    The server can implicitly or explicitly mention that the reponse provided can be cached or not. Client or intermediate services
+    can cache these responses with them and serve it on demand.
+
+4. __Uniform Interface__
+
+    Client requests for a resource that the server has and it is access using a URI. Client gets a representation of the resource
+    owned by the server. The representation could be in JSON or XML format. The response from the server should be self descriptive,
+    that means that the server should send all the details required to process the request(Eg:- status code, content-type).
+
+    What makes the reponse more usable is the HATEOAS implementation. HATEOAS is Hypermedia As The Engine Of Application State. It
+    states that the response itself would be having information regarding the actions it can carry out further for the requested
+    resource.
+
+5. __Layered architecture__
+
+    This principle suggests that there could be multiple intermediate servers between client and the end server that holds the
+    resource. Client should not be able to identify whether it is communicating with the end server or with the intermediaries. The
+    intermediaries could be load balancers, api gateways, reverse proxis or even cache servers.
+
+6. __Code on Demand__
+
+    The client should be able to download code from the server and it can execute the code to extend its functionality. Though it is 
+    in the design list, it is an optinal constraint.
+
+These constraints were discussed in Roy Filding's disseration about Architectural Styles and the Design of
+Network-based software architectures. From the definition, it is clear that REST is not just about
+building a single web service to act on a resource. Insead, it abstractly covers the architectural
+design of how web can scale keeping the concrete implementation details hidden. CRUD api can be considered as
+the basic unit of the concrete implementation.
+
+
+### Conclusion
+
+REST as a design principle sheds wisdom on developers to think about a solution that scales, right
+from the inception of the implementation. It tries to make the architecture as loosely coupled as possible
+without compromising the evolvability aspect of individual components. It also aspires to bring about
+a system that tries to reduce the latency as much as possible. REST can be considered as a template 
+which has scalability and evolvability considerations fitted in to it by default and its scope
+lies beyond just a server or just a CRUD api.
+----
+
+## References
+
+- https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm
