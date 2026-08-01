@@ -6,12 +6,13 @@ date: "Jul 31 2026"
 
 import { Image } from "astro:assets";
 import myImage from "../../assets/being-restful.png";
+import archIMage from "../../assets/being-restful-archi.webp";
 
 <Image src={myImage} alt="Product screenshot" />
 
 REST API is still an industry wide buzzword and it would be one of the core skill-set that any
-software engineer would be having in their repertoire. Despite of being a backend or an frontend engineer,
-it it also one of the most demanded topic which every developers are expected to know. Since it still holds
+software engineer would be having in their repertoire. Whether you're a backend or a frontend engineer,
+it is also one of the most in-demand topics that every developer is expected to know. Since it still holds
 its importance, discussions about it is still relevant, even in the agentic era. Most introductory learning resources out there typically focuses on
 building a CRUD application using any Web or MVC frameworks available. Those frameworks would be the one 
 that is used in the industry for building web services which includes SpringBoot, Django, Flask, Gin etc.
@@ -19,26 +20,26 @@ Selection of such a framework would be based on the flavours and preferences of 
 
 The outcome from such courses would be hands-on experience of building a fully fledged service which shall
 satisfy the requirements mentioned. We would be building few distinct endpoints to create, update and delete the 
-resource we have imagined and we would also be testing these endpoints using some well known http clients(curl and
+resource we have imagined and we would also be testing these endpoints using some well known HTTP clients(curl and
 curl wrappers!). And done !.
 
 We would have built a server which handles a resource such as a Student or a Pet, implemented 
 different endpoints that serves different purposes and we have an http client software which in realword
 can be a frontend application or another service that consumes the resources held by the server.
-Theoretically the implementation is Restful. But how do we define RESTfullness? Is it limited to just building a CRUD API ?
+Theoretically the implementation is Restful. But how do we define RESTfullness? Is it limited to just building a CRUD API?
 
 
 
 
 ###  Thinking in REST
 
-REST stands for Respresentational State Transfer. It is a philosophy and at the same time an architectural style
-that mentions the priciples about building a web service. It does not qualify as a protocol as it does not enforce
+REST stands for Representational State Transfer. It is a philosophy and at the same time an architectural style
+that mentions the principles about building a web service. It does not qualify as a protocol as it does not enforce
 any hard contracts for its implementation unlike protocols like HTTP, TCP or UDP. REST gives us freedom to implement the 
-model the way we intend to. We can even break the pricinple, after breaking it though the service might not be strictly RESTful but still 
-it would carry its flavour, thats the speciality of this style.
+model the way we intend to. We can even break the principle, after breaking it though the service might not be strictly RESTful but still 
+it would carry its flavour, that's the specialty of this style.
 
-In simple terms, these are the principles putforward and if the services follows this design, we can argue that the solution is RESTful
+In simple terms, these are the principles put forward and if the services follows this design, we can argue that the solution is RESTful
 
 1. __Client Server architecture__
 
@@ -53,7 +54,7 @@ that the client and the server can evolve independently.
 
 3. __Cacheability__
 
-    The server can implicitly or explicitly mention that the reponse provided can be cached or not. Client or intermediate services
+    The server can implicitly or explicitly mention that the response provided can be cached or not. Client or intermediate services
     can cache these responses with them and serve it on demand.
 
 4. __Uniform Interface__
@@ -62,7 +63,7 @@ that the client and the server can evolve independently.
     owned by the server. The representation could be in JSON or XML format. The response from the server should be self descriptive,
     that means that the server should send all the details required to process the request(Eg:- status code, content-type).
 
-    What makes the reponse more usable is the HATEOAS implementation. HATEOAS is Hypermedia As The Engine Of Application State. It
+    What makes the response more usable is the HATEOAS implementation. HATEOAS is Hypermedia As The Engine Of Application State. It
     states that the response itself would be having information regarding the actions it can carry out further for the requested
     resource.
 
@@ -70,18 +71,129 @@ that the client and the server can evolve independently.
 
     This principle suggests that there could be multiple intermediate servers between client and the end server that holds the
     resource. Client should not be able to identify whether it is communicating with the end server or with the intermediaries. The
-    intermediaries could be load balancers, api gateways, reverse proxis or even cache servers.
+    intermediaries could be load balancers, API gateways, reverse proxies or even cache servers.
 
 6. __Code on Demand__
 
     The client should be able to download code from the server and it can execute the code to extend its functionality. Though it is 
-    in the design list, it is an optinal constraint.
+    in the design list, it is an optional constraint.
 
-These constraints were discussed in Roy Fielding's disseration about Architectural Styles and the Design of
+These constraints were discussed in Roy Fielding's dissertation about Architectural Styles and the Design of
 Network-based software architectures. From the definition, it is clear that REST is not just about
-building a single web service to act on a resource. Insead, it abstractly covers the architectural
-design of how web can scale keeping the concrete implementation details hidden. CRUD api can be considered as
+building a single web service to act on a resource. Instead, it abstractly covers the architectural
+design of how web can scale keeping the concrete implementation details hidden. CRUD API can be considered as
 the basic unit of the concrete implementation.
+
+### HTTP as a transport system
+
+HTTP as a protocol supports this architectural style with features to implement these contracts. We can even argue that the philosophy of REST
+has evolved from HTTP. If we iterate through the REST contracts once gain from HTTP's perspective, we can see that HTTP
+supports client server architecture, it has ways to make the server stateless - client can send its entire context in the payload 
+with metadata in the headers, there are headers which insists the client to cache the response within, resource can be accessed via a URI and it provides
+distinct verbs for acting on a resource. It supports payload compression and even if the response moves through intermediate servers, client could
+receive the response in minimal time and it could never predict whether it came from the end-server (resource server) until and unless mentioned
+explicitly.
+
+HTTP verbs makes HTTP more comfortable to use. Idempotency and Safety properties makes it easier to think about how a resource could be retrieved or modified.
+There are also methods that supports caching of the response.
+
+> An API is idempotent if it returns the same response even if it is executed multiple times. An API is safe if it does not modify the resource.
+
+
+| Method | Idempotency | Safety | Use case |
+| --- | --- | ---  | --- |
+| GET | Yes | Yes | Used to fetch resources
+| OPTIONS | Yes | Yes | Used to fetch the methods supported
+| POST | No | No | To create a resource
+| PUT | Yes | No | Used to update an already existing resource  |
+| PATCH | No | No |  Used to update one property of the resource |
+| DELETE | Yes | No | Used to delete a resource | 
+| HEAD | Yes | Yes | Primarily used to get the metadata of a resource |
+| __QUERY__ | __Yes__ | __Yes__ | __Similar to GET but can take a request payload__ |
+
+Among these verbs GET, HEAD and QUERY are cacheable. POST method is cacheable but it depends on the cache control header in the response. OPTIONS response is not
+usually cached and PUT, PATCH and DELETE are not generally cacheable.
+
+For many decades, complex filter queries 
+were handled by POST method as it was hard for GET method to include filters in query parameter or path variable. It confused the developers and users when 
+POST method was used, because the objective of the API call was to just fetch the resource and not modify it. QUERY fixes the issue elegantly. 
+
+```bash 
+QUERY /feed HTTP/1.1
+Host: example.org
+Content-Type: application/x-www-form-urlencoded
+
+q=foo&limit=10&sort=-published
+```
+
+Headers are yet another feature of this protocol that helps to share the metadata information of the request send as well as the response received from the server.
+Most commonly seen headers are content-type, content-length, cache-control, ETag, authorization, cookie, set-cookie etc and complete list of supported headers
+can be seen [here](#references)
+
+### Using REST to architect a solution
+
+Let's assume that we are building a software tool for pet adoption center. On day to day basis many animals are rescued and sheltered there. Adoption center should be
+able to add the animals into their database. They should be able to modify the entries and delete the entries once their owners adopt them. There should be a 
+really good UI for showcasing animals in the center so that pet lovers could pick their loved ones.
+
+From the definition of REST, we can identify that the resource we have here is a Pet. It could be having a name, it could be a bird, a fish, or a dog, it has age etc.
+we can provide an identifier to uniquely identify them.
+
+```java
+class Pet{
+    int id;
+    String name;
+    Enum animal;
+    int age;
+}
+```
+
+We can design API's to act on this resource
+
+```bash
+# Fetch pets
+GET /pets - Used to fetch all the pets in the adoption center
+GET /pets/1001 - Used to fetch a pet with id = 1001
+
+# Create and update a pet
+POST /pets - used to create a new pet
+{
+    name : "lilly"
+    animal: "bird",
+    age : 2
+}
+PUT /pets - used to update the details of a pet
+{
+    name : "lilly-jr",
+    animal: "bird",
+    age : 1
+}
+PATCH /pets/1001 - Update a single property of the resource
+{
+    name : "lilly Jr"
+}
+
+# Delete a pet
+DELETE /pets/1001 - Delete a pet (soft deletion)
+```
+
+Now that we have API structure we can move one step further and design the components of our software by
+adhering to the design principles of REST. We can have a client application (website) and a server which
+has the pet details to solve this problem. But let's say that the pet adoption facility starts to receive more traction
+and they are opening new offices across multiple cities, one server application with its database might not able to handle the
+load. Then we can modify the same as follows : 
+
+<div style={{ display: "flex", justifyContent: "center" }}>
+    <Image src={archIMage} width="500" height="500" alt="Architecture diagram" />
+</div>
+
+If we iterate throught the REST design principles once again, we can see that the modified design already follows client server architecture,
+we have already created the interface with proper http contract - a single uri can be used to perform actions on a pet resource. We were able
+to increase the server resources horizontally by adding an API gateway in front of it, only because the actions are stateless. Even if the traffic is
+routed to server 1 or server 2 the response would be same, assuming that the data in the database is replicated. No additional data is required to process 
+the request from the client (session stickiness is not in the scope of this design). We were also able to add a cache server into the design. We can cache the most 
+frequently fetched pet details into the cache based on cache aside logic. Already our design comprises multiple layers, client would be requesting the resource 
+to the gateway and it doesn't matter if the response comes from cache or load balanced servers.
 
 
 ### Conclusion
@@ -91,12 +203,14 @@ from the inception of the implementation. It tries to make the architecture as l
 without compromising the evolvability aspect of individual components. It also aspires to bring about
 a system that tries to reduce the latency as much as possible. REST can be considered as a template 
 which has scalability and evolvability considerations fitted in to it by default and its scope
-lies beyond just a server or just a CRUD api.
+lies beyond just a server or just a CRUD API.
 
 
 ----
 
 ## References
 
-- [Architectural Styles and the Design of Network-based Software Architectures](https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
-- [Representational State Transfer (REST)](https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
+1. [Architectural Styles and the Design of Network-based Software Architectures](https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
+2. [Representational State Transfer (REST)](https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm)
+3. [The HTTP Query Method (rfc)](https://www.rfc-editor.org/info/rfc10008/#section-2.7)
+4. [Htttp Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers)
