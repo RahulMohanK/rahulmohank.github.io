@@ -1,0 +1,118 @@
+---
+title: "git retro"
+description: "Git argubly is the one of the most used developer tools in the planet"
+date: "Oct 02 2026"
+---
+
+import { Image } from "astro:assets";
+import retroGif from "../../assets/git-retro-gif.webp";
+
+Git is arguably one of the most widely used developer tools in the world. Almost every developer has used Git for version control and to collaborate with other developers. 
+I have been using Git for more than 9 years now, yet I still become awe-struck whenever I encounter a Git trick I haven't seen before.
+ This time, I was motivated enough to go through the Git codebase to understand what was happening under the hood.
+
+__"Git is a file compression tool that acts as a time machine for your project."__ I don't know if everyone would agree with
+ this, but this is how I think about Git at a high level. Git stores the files in a content-addressable format inside 
+ the .git directory created for each project. Whenever we make a revision to a file, Git stores the new version of its 
+ contents as an object. Git organizes its core data structures into commits, trees, and blobs. Every Git command 
+ manipulates these data structures to provide the desired functionality.
+
+The idea behind __git retro__ is pretty simple: what if we wanted to get a list of all the branches that were created 
+this week and the commits made to each branch? We can definitely write a Bash script to get this done, but what if Git 
+itself could provide this functionality? I tinkered with the codebase a little and came up with this solution.
+
+<div style={{ display: "flex", justifyContent: "center" }}>
+    <Image src={retroGif} width="600" height="500" alt="Architecture diagram" />
+</div>
+
+The low-level design of Git is really interesting. It closely aligns with how system calls work in Unix.
+If you are good at thinking from first principles, it is easy to get started. Git provides a set of plumbing 
+commands that can be used to invoke Git functionalities internally within Git itself. git rev-list is one such
+command that I used here to retrieve the commit details.
+
+```c
+int cmd_retro(int argc,
+	      const char **argv,
+	      const char *prefix,
+	      struct repository *repo)
+{
+	struct child_process cp = CHILD_PROCESS_INIT;
+	struct strbuf out = STRBUF_INIT;
+	struct string_list branches = STRING_LIST_INIT_DUP;
+	char *line;
+
+	cp.git_cmd = 1;
+	strvec_pushl(&cp.args, "reflog", "--all",
+		     "--since=7 days ago", "--until=now",
+		     "--format=%gd",
+		     "--grep-reflog=branch: Created",
+		     NULL);
+	if (capture_command(&cp, &out, 0)){
+		return error(_("could not enumerate branches"));
+	}
+
+	line = out.buf;
+	for (;;) {
+		char *eol = strchr(line, '\n');
+		if (eol)
+			*eol = '\0';
+		if (*line) {
+			char *index = strstr(line, "@{");
+			if (index)
+				*index = '\0';
+			if (!string_list_has_string(&branches, line))
+				string_list_append(&branches, line);
+		}
+		if (!eol)
+			break;
+		line = eol + 1;
+	}
+
+	if (!branches.nr){
+		printf("  (none)\n");
+	} else {
+		int count = 0;
+		struct branch_commits *branch_commits = xcalloc(branches.nr, sizeof(* branch_commits));
+		for (size_t i = 0; i < branches.nr; i++) {
+			struct child_process cnt = CHILD_PROCESS_INIT;
+			struct strbuf n = STRBUF_INIT;
+			cnt.git_cmd = 1;
+			strvec_pushl(&cnt.args, "rev-list", "--count",
+			     branches.items[i].string, NULL);
+			if (capture_command(&cnt, &n, 0)) {
+				warning(_("could not count '%s'"), branches.items[i].string);
+				strbuf_release(&n);	
+				continue;
+			}
+			branch_commits[i].branch = branches.items[i].string;
+			branch_commits[i].commits = atoi(n.buf);
+			count += atoi(n.buf);
+			strbuf_release(&n);
+		}
+		printf("This weeks status : \n");
+		printf("  Branches created : %s%zu%s \n",GIT_COLOR_GREEN,branches.nr,GIT_COLOR_RESET);
+		printf("  Commits made : %s%d%s \n\n",GIT_COLOR_GREEN,count,GIT_COLOR_RESET);
+		printf("Commits made per branch :\n");
+		for (size_t i = 0; i < branches.nr; i++) {
+			printf("  %s%s%s -- %d commits\n", GIT_COLOR_GREEN, branch_commits[i].branch , GIT_COLOR_RESET, branch_commits[i].commits);
+		}
+		free(branch_commits);
+	}
+	string_list_clear(&branches, 0);
+	strbuf_release(&out);
+	return 0;
+}
+```
+
+
+
+__git retro__ is not an official command :).It was fun to pick up C programming again after a long time.
+ Do checkout my fork, build from source and give it a try : [feature/git-retrospective](https://github.com/git/git/compare/master...RahulMohanK:git:feature/git-retrospective?expand=1)
+
+----
+
+## References
+
+- [Git Objects](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)
+- [Plumbing and Porcelain](https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain)
+- [Pro Git](https://git-scm.com/book/en/v2)
