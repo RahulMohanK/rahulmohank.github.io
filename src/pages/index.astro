@@ -1,6 +1,15 @@
 ---
 import Header from "../components/header.astro"
 import Footer from "../components/footer.astro"
+import Link from "../components/link.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import ArrowCard from "../components/arrow-card.astro";
+import Container from "../components/container.astro";
+import PageLayout from "../layouts/blog-layout.astro";
+
+const blog = (await getCollection("blog"))
+  .filter((post : any) => !post.data.draft)
+  .sort((a:any, b:any) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0,3);
 ---
 
 <html lang="en">
@@ -22,7 +31,7 @@ import Footer from "../components/footer.astro"
 	</head>
 	<body>
 		<Header/>
-		<section id="panel-home" class="panel" role="tabpanel" aria-labelledby="tab-home">
+    <PageLayout title={"Home"} description={"Home"}>
         <div class="center wrap">
           <div class="avatar" aria-label="Your photo placeholder">
             <img src="photo.jpg" alt="Your photo" onerror="this.style.display='none'">
@@ -31,13 +40,6 @@ import Footer from "../components/footer.astro"
           <h1>Rahul Mohan K</h1>
           <p class="lead">Artist / Problem Solver / Developer / I build simple, reliable web things.</p>
           
-          <!-- <div class="p-4 rounded-md text-center mx-auto" style="max-width: 600px;">
-            <p>
-              Software Engineer with 6+ years of experience building and scaling backend systems. Experienced in
-              designing reliable services for complex business workflows, with frontend experience and the ability to work
-              across the stack to deliver end-to-end solutions.
-            </p>
-          </div> -->
    
         </div>
         <div class="actions">
@@ -73,7 +75,30 @@ import Footer from "../components/footer.astro"
           View Resume
         </a>
       </div>
-      </section>
+  
+      <Container>
+        <section class="animate space-y-6 mt-8">
+        <div class="flex flex-wrap gap-y-2 items-center justify-between">
+          <h5 class="font-semibold text-black dark:text-white">
+            Latest posts
+          </h5>
+          <Link href="/blog">
+            See all posts
+          </Link>
+        </div>
+        <ul class="flex flex-col gap-4">
+          {blog.map(post => (
+            <li>
+              <ArrowCard entry={post} />
+            </li>
+          ))}
+        </ul>
+        </section>
+      </Container>
+      
+
+
+      </PageLayout>
 	  <Footer/>
 	</body>
 </html>
